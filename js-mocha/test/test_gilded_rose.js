@@ -46,7 +46,7 @@ describe('Gilded Rose', () => {
     });
 
     it('cannot degrade quality below 0', () => {
-      const gildedRose = new Shop([new Item('foo', 10, 3)]);
+      const gildedRose = new Shop([new Item('foo', 10, 3), new Item('foo', 10, -3)]);
       gildedRose.updateQuality();
       gildedRose.updateQuality();
       gildedRose.updateQuality();
@@ -55,6 +55,7 @@ describe('Gilded Rose', () => {
       gildedRose.updateQuality();
       const items = gildedRose.updateQuality();
       expect(items[0].quality).to.equal(0);
+      expect(items[1].quality).to.equal(-3);
     });
   });
 
@@ -96,7 +97,7 @@ describe('Gilded Rose', () => {
     });
 
     it('Cannot obtain a quailty above 50', () => {
-      const gildedRose = new Shop([new Item(agedBrieItemName, 1, 49)]);
+      const gildedRose = new Shop([new Item(agedBrieItemName, 1, 49), new Item(agedBrieItemName, 1, 102)]);
       gildedRose.updateQuality();
       gildedRose.updateQuality();
       gildedRose.updateQuality();
@@ -105,6 +106,7 @@ describe('Gilded Rose', () => {
       gildedRose.updateQuality();
       const items = gildedRose.updateQuality();
       expect(items[0].quality).to.equal(50);
+      expect(items[1].quality).to.equal(102);
     });
   });
   describe('Tickets', () => {
@@ -121,11 +123,12 @@ describe('Gilded Rose', () => {
     });
 
     it('cannot have a quality above 50', () => {
-      const gildedRose = new Shop([new Item(ticketItemName, 11, 49)]);
+      const gildedRose = new Shop([new Item(ticketItemName, 11, 49), new Item(ticketItemName, 11, 55)]);
       gildedRose.updateQuality();
       gildedRose.updateQuality();
       const items = gildedRose.updateQuality();
       expect(items[0].quality).to.equal(50);
+      expect(items[1].quality).to.equal(55);
     });
 
     it('should increase twice as fast in quality if between 6 and 10 days inclusive', () => {
