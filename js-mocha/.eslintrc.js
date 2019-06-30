@@ -8,7 +8,8 @@ module.exports = {
     },
     extends: ['airbnb-base', 'prettier'],
     rules: {
-      'prettier/prettier': [
+    'no-nested-ternary': 'off',
+    'prettier/prettier': [
         'error',
         {
           singleQuote: true,

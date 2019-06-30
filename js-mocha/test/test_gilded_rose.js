@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { Shop, Item } from '../src/gilded_rose';
+import { Shop, Item, agedBrieItemName, ticketItemName, sulfurasItemName } from '../src/gilded_rose';
 
 describe('Gilded Rose', () => {
   describe('Regular products', () => {
@@ -51,26 +51,26 @@ describe('Gilded Rose', () => {
   });
   describe('Aged Brie', () => {
     it('should increase in quality the older it gets', () => {
-      const gildedRose = new Shop([new Item('Aged Brie', 10, 10)]);
+      const gildedRose = new Shop([new Item(agedBrieItemName, 10, 10)]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).to.equal(11);
     });
 
     it('Modifies the sellIn date', () => {
-      const gildedRose = new Shop([new Item('Aged Brie', 10, 10)]);
+      const gildedRose = new Shop([new Item(agedBrieItemName, 10, 10)]);
       const items = gildedRose.updateQuality();
       expect(items[0].sellIn).to.equal(9);
     });
 
     it('should increase twice as fast in quality when the sellIn date passes', () => {
-      const gildedRose = new Shop([new Item('Aged Brie', 1, 10)]);
+      const gildedRose = new Shop([new Item(agedBrieItemName, 1, 10)]);
       gildedRose.updateQuality();
       const items = gildedRose.updateQuality();
       expect(items[0].quality).to.equal(13);
     });
 
     it('Cannot obtain a quailty above 50', () => {
-      const gildedRose = new Shop([new Item('Aged Brie', 1, 49)]);
+      const gildedRose = new Shop([new Item(agedBrieItemName, 1, 49)]);
       gildedRose.updateQuality();
       gildedRose.updateQuality();
       gildedRose.updateQuality();
@@ -81,21 +81,21 @@ describe('Gilded Rose', () => {
       expect(items[0].quality).to.equal(50);
     });
   });
-  describe('Backstage passes to a TAFKAL80ETC concert', () => {
+  describe('Tickets', () => {
     it('should increase in quality the older it gets, if above 10', () => {
-      const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 11, 10)]);
+      const gildedRose = new Shop([new Item(ticketItemName, 11, 10)]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).to.equal(11);
     });
 
     it('Modifies the sellIn date', () => {
-      const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 11, 10)]);
+      const gildedRose = new Shop([new Item(ticketItemName, 11, 10)]);
       const items = gildedRose.updateQuality();
       expect(items[0].sellIn).to.equal(10);
     });
 
     it('cannot have a quality above 50', () => {
-      const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 11, 49)]);
+      const gildedRose = new Shop([new Item(ticketItemName, 11, 49)]);
       gildedRose.updateQuality();
       gildedRose.updateQuality();
       const items = gildedRose.updateQuality();
@@ -104,12 +104,12 @@ describe('Gilded Rose', () => {
 
     it('should increase twice as fast in quality if between 6 and 10 days inclusive', () => {
       const gildedRose = new Shop([
-        new Item('Backstage passes to a TAFKAL80ETC concert', 10, 10),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 9, 10),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 8, 10),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 7, 10),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 6, 10),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 5, 10),
+        new Item(ticketItemName, 10, 10),
+        new Item(ticketItemName, 9, 10),
+        new Item(ticketItemName, 8, 10),
+        new Item(ticketItemName, 7, 10),
+        new Item(ticketItemName, 6, 10),
+        new Item(ticketItemName, 5, 10),
       ]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).to.equal(12);
@@ -122,12 +122,12 @@ describe('Gilded Rose', () => {
 
     it('should increase by three times if between 5 and 1 days inclusive', () => {
       const gildedRose = new Shop([
-        new Item('Backstage passes to a TAFKAL80ETC concert', 5, 10),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 4, 10),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 3, 10),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 2, 10),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 1, 10),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 0, 10),
+        new Item(ticketItemName, 5, 10),
+        new Item(ticketItemName, 4, 10),
+        new Item(ticketItemName, 3, 10),
+        new Item(ticketItemName, 2, 10),
+        new Item(ticketItemName, 1, 10),
+        new Item(ticketItemName, 0, 10),
       ]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).to.equal(13);
@@ -138,20 +138,17 @@ describe('Gilded Rose', () => {
       expect(items[5].quality).not.to.equal(13);
     });
 
-    it('should drop to 0 after the convert', () => {
-      const gildedRose = new Shop([
-        new Item('Backstage passes to a TAFKAL80ETC concert', 1, 10),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 0, 10),
-      ]);
+    it('should drop to 0 after the concert', () => {
+      const gildedRose = new Shop([new Item(ticketItemName, 1, 10), new Item(ticketItemName, 0, 10)]);
       gildedRose.updateQuality();
       const items = gildedRose.updateQuality();
       expect(items[0].quality).to.equal(0);
       expect(items[1].quality).to.equal(0);
     });
   });
-  describe('Sulfuras, Hand of Ragnaros', () => {
+  describe('Sulfuras', () => {
     it(`Doesn't change in quality`, () => {
-      const gildedRose = new Shop([new Item('Sulfuras, Hand of Ragnaros', 1, 49)]);
+      const gildedRose = new Shop([new Item(sulfurasItemName, 1, 80)]);
       gildedRose.updateQuality();
       gildedRose.updateQuality();
       gildedRose.updateQuality();
@@ -159,10 +156,11 @@ describe('Gilded Rose', () => {
       gildedRose.updateQuality();
       gildedRose.updateQuality();
       const items = gildedRose.updateQuality();
-      expect(items[0].quality).to.equal(49);
+      expect(items[0].quality).to.equal(80);
     });
+
     it(`Doesn't modify the sellIn date`, () => {
-      const gildedRose = new Shop([new Item('Sulfuras, Hand of Ragnaros', 1, 49)]);
+      const gildedRose = new Shop([new Item(sulfurasItemName, 1, 80)]);
       gildedRose.updateQuality();
       gildedRose.updateQuality();
       gildedRose.updateQuality();
