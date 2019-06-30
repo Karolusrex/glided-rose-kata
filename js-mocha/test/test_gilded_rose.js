@@ -24,6 +24,14 @@ describe('Gilded Rose', () => {
       expect(items[1].sellIn).to.equal(9);
     });
 
+    it('Allows sellIn to go negative', () => {
+      const gildedRose = new Shop([new Item('Aged Brie', -100, 10)]);
+      gildedRose.updateQuality();
+      gildedRose.updateQuality();
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).to.equal(-103);
+    });
+
     it('can be added with a quality above 50', () => {
       const gildedRose = new Shop([new Item('foo', 1, 100)]);
       const items = gildedRose.updateQuality();
