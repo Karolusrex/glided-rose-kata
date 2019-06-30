@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { Shop, Item, agedBrieItemName, ticketItemName, sulfurasItemName } from '../src/gilded_rose';
+import { Shop, Item, agedBrieItemName, ticketItemName, sulfurasItemName, conjuredItemName } from '../src/gilded_rose';
 
 describe('Gilded Rose', () => {
   describe('Regular products', () => {
@@ -55,6 +55,24 @@ describe('Gilded Rose', () => {
       gildedRose.updateQuality();
       const items = gildedRose.updateQuality();
       expect(items[0].quality).to.equal(0);
+    });
+  });
+
+  describe('Conjured item', () => {
+    it('should degrade quality after a day for each item twice as fast', () => {
+      const gildedRose = new Shop([new Item(conjuredItemName, 10, 2), new Item(conjuredItemName, 10, 3)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).to.equal(0);
+      expect(items[1].quality).to.equal(1);
+    });
+
+    it('should degrade quality by 4 when the sellIn date has passed', () => {
+      const gildedRose = new Shop([new Item(conjuredItemName, 3, 10), new Item(conjuredItemName, 1, 10)]);
+      gildedRose.updateQuality();
+      gildedRose.updateQuality();
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).to.equal(4);
+      expect(items[1].quality).to.equal(0);
     });
   });
   describe('Aged Brie', () => {
